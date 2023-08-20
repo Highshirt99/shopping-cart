@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { CartContext } from "../App";
 import { productsList } from "../productsList";
 import next from "../assets/icon-next.svg";
@@ -6,18 +6,17 @@ import previous from "../assets/icon-previous.svg";
 import plus from "../assets//icon-plus.svg";
 import minus from "../assets/icon-minus.svg";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-// import { ProductType } from "../types";
+// import { ProductType } from '../types';
 
 const Products = () => {
-  let { productsArr, setCartIsOpen, products } = useContext(CartContext);
+  let { productsArr, setCartIsOpen, setCartItemsLength } =
+    useContext(CartContext);
   const [amount, setAmount] = useState<number>(1);
-
-  const ref = useRef<number>(1);
 
   const [allProducts, setAllProducts] = useState<any[] | null>(null);
 
   useEffect(() => {
-    productsList ? setAllProducts(productsList) : setAllProducts(null);
+    setAllProducts(productsList);
   }, []);
 
   const addToCart = (item: any) => {
@@ -40,6 +39,7 @@ const Products = () => {
           existingProducts.push({ ...item });
         }
         localStorage.setItem("products", JSON.stringify(existingProducts));
+        setCartItemsLength(existingProducts.length);
       }
     }
 
@@ -47,48 +47,31 @@ const Products = () => {
     else {
       productsArr.push({ ...item });
       localStorage.setItem("products", JSON.stringify(productsArr));
+      setCartItemsLength(productsArr.length);
     }
+
+    // setProducts((prev:ProductType[] ) => [...prev, item])
 
     setCartIsOpen(false);
   };
-  // console.log(products)
 
   const handleIncrement: any = (id: number) => {
-    products?.forEach((product) => {
+    productsList.forEach((product) => {
       if (product.id === id) {
-        product.amount!++;
-        ref.current++;
+        product.amount++;
+
         setAmount(amount + 1);
-        // console.log(product.amount)
       }
     });
-    // getAmount(id);
   };
   const handleDecrement = (id: number) => {
-    products?.forEach((product) => {
-      if (product.id === id && product.amount! > 0) {
-        product.amount!--;
-        ref.current--;
+    productsList.forEach((product) => {
+      if (product.id === id && product.amount! > 1) {
+        product.amount--;
         setAmount(amount - 1);
-        console.log(amount);
       }
     });
   };
-
-  // const getAmount = (id: number): any => {
-  //   allProducts?.forEach((product) => {
-  //     // console.log(id)
-
-  //     products?.forEach((item) => {
-  //       if (item.id === product.id) {
-  //         product.amount = item.amount;
-  //       }
-
-  //       console.log(product.amount);
-  //     });
-  //   });
-  //   return allProducts;
-  // };
 
   return (
     <div className="lg:px-[3rem] p-[2rem] mb-4 flex flex-col gap-12">
@@ -156,7 +139,7 @@ const Products = () => {
                     alt=""
                     className="cursor-pointer"
                   />
-                  <span className="font-bold"> {ref.current} </span>
+                  <span className="font-bold"> {product.amount} </span>
                   <img
                     onClick={() => handleIncrement(product.id)}
                     src={plus}

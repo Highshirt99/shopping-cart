@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import "./App.css";
 import Template from "./components/Template";
-import { CartContextType, ProductType } from './types';
+import { CartContextType, ProductType } from "./types";
 
 export const CartContext = createContext<CartContextType>({
   cartIsOpen: false,
@@ -10,19 +10,19 @@ export const CartContext = createContext<CartContextType>({
   isOpen: false,
   toggleIsOpen: () => {},
   setIsOpen: () => {},
-  products:  null,
+  products: [],
   setProducts: () => {},
-  productsArr: []
-
+  productsArr: [],
+  cartItemsLength: null,
+  setCartItemsLength: () => {},
 });
 
-
 function App() {
-
   const [cartIsOpen, setCartIsOpen] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [products, setProducts] = useState<ProductType[] | null>(null);
-  const productsArr:ProductType[] = []
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [cartItemsLength, setCartItemsLength] = useState<number | null>(null);
+  const productsArr: ProductType[] = [];
 
   const toggleIsOpen = () => {
     setIsOpen(!isOpen);
@@ -43,7 +43,9 @@ function App() {
         setIsOpen,
         products,
         setProducts,
-        productsArr
+        productsArr,
+        cartItemsLength,
+        setCartItemsLength,
       }}
     >
       <div className="lg:px-[4rem] md:px-[3rem] font-bodyFont">

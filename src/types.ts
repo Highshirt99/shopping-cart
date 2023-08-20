@@ -22,8 +22,10 @@ export type CartContextType = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   toggleIsOpen: () => any;
   products: ProductType[] | null;
-  setProducts:  React.Dispatch<React.SetStateAction<ProductType[] | null>>;
-  productsArr: ProductType[]
+  setProducts:  React.Dispatch<React.SetStateAction<ProductType[]>>;
+  productsArr: ProductType[],
+  cartItemsLength: number | null,
+  setCartItemsLength: React.Dispatch<React.SetStateAction<number | null>>;
 
 
 };

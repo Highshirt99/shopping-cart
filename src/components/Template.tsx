@@ -10,27 +10,32 @@ import { CartContext } from "../App";
 import { CartContextType } from "../types";
 import Products from "./Products";
 
-
 const Template = () => {
-  const { cartIsOpen, toggleCartIsOpen, toggleIsOpen, setProducts, products} =
-    useContext<CartContextType>(CartContext);
+  const {
+    cartIsOpen,
+    toggleCartIsOpen,
+    toggleIsOpen,
+    setProducts,
+    products,
+    setCartItemsLength,
+    cartItemsLength,
+  } = useContext<CartContextType>(CartContext);
 
+  useEffect(() => {
+    const getProducts = () => {
+      let productsFromStorage = localStorage.getItem("products") || "";
 
-    useEffect(() => {
-      const getProducts = () => {
-        let productsFromStorage = localStorage.getItem("products") || "";
-  
-        if (productsFromStorage.length > 0) {
-          productsFromStorage = JSON.parse(productsFromStorage);
-          // console.log((productsFromStorage));
-          if (Array.isArray(productsFromStorage)) {
-            setProducts(productsFromStorage);
-          }
+      if (productsFromStorage.length > 0) {
+        productsFromStorage = JSON.parse(productsFromStorage);
+
+        if (Array.isArray(productsFromStorage)) {
+          setProducts(productsFromStorage);
+          setCartItemsLength(productsFromStorage.length)
         }
-      };
-      return getProducts();
-  }, [setProducts]);
-  
+      }
+    };
+    return getProducts();
+  }, [cartItemsLength, setCartItemsLength, setProducts]);
 
   return (
     <div className="relative">
@@ -45,10 +50,12 @@ const Template = () => {
         />
         <img src={logo} alt="logo" width="80px" />
         <div className="absolute flex items-center gap-6 right-12">
-        <div className="relative cursor-pointer">
-           {products!?.length > 0 && <div className="bg-Orange absolute -right-1 -top-1 w-[18px] h-[12px]  p-1 flex items-center  text-white rounded-[40%] ">
-              <span className="text-[8px] mx-auto">{products!?.length}</span>
-            </div>}
+          <div className="relative cursor-pointer">
+            {products!?.length > 0 && (
+              <div className="bg-Orange absolute -right-1 -top-1 w-[18px] h-[12px]  p-1 flex items-center  text-white rounded-[40%] ">
+                <span className="text-[8px] mx-auto">{cartItemsLength}</span>
+              </div>
+            )}
             <img
               src={cartIcon}
               alt=""
@@ -64,7 +71,6 @@ const Template = () => {
             className="border border-red-300 rounded-[50%] cursor-pointer"
           />
         </div>
-        
       </div>
       {<Sidebar />}
 
