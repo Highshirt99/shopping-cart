@@ -6,7 +6,6 @@ import previous from "../assets/icon-previous.svg";
 import plus from "../assets//icon-plus.svg";
 import minus from "../assets/icon-minus.svg";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-// import { ProductType } from '../types';
 
 const Products = () => {
   let { productsArr, setCartIsOpen, setCartItemsLength } =
@@ -14,6 +13,9 @@ const Products = () => {
   const [amount, setAmount] = useState<number>(1);
 
   const [allProducts, setAllProducts] = useState<any[] | null>(null);
+  const [productId, setProductId] = useState<number | null>(null);
+  const [index, setIndex] = useState<number>(0);
+  const length = 3;
 
   useEffect(() => {
     setAllProducts(productsList);
@@ -64,6 +66,7 @@ const Products = () => {
       }
     });
   };
+  
   const handleDecrement = (id: number) => {
     productsList.forEach((product) => {
       if (product.id === id && product.amount! > 1) {
@@ -72,6 +75,35 @@ const Products = () => {
       }
     });
   };
+
+  const handlePrevious = (id: number) => {
+    const newIndex = index - 1;
+    setProductId(null)
+
+    allProducts?.forEach((product) => {
+      if (product.id === productId) {
+        setIndex(newIndex < 0 ? length - 1 : newIndex);
+        setProductId(id);
+      }
+    });
+
+    // console.log(productId, id)
+  };
+  const handleNext = (id: number) => {
+    const newIndex = index + 1;
+
+    allProducts?.forEach((product) => {
+      if (product.id === id) {
+        setIndex(newIndex >= length ? 0 : newIndex);
+        setProductId(id);
+    
+      }
+    });
+
+    // console.log(id, productId)
+  };
+
+  
 
   return (
     <div className="lg:px-[3rem] p-[2rem] mb-4 flex flex-col gap-12">
@@ -84,16 +116,22 @@ const Products = () => {
             <div className="w-fit">
               <div className="relative">
                 <img
-                  src={product.image}
+                  src={
+                    product.id === productId
+                      ? product.images[index].img
+                      : product.images[0].img
+                  }
                   alt="product.heading"
                   className="rounded-[10px] lg:w-[300px] w-full h-[250px] object-cover"
                 />
                 <img
+                  onClick={() => handlePrevious(product.id)}
                   src={previous}
                   alt=""
                   className="absolute left-3 top-[50%] cursor-pointer rounded-sm bg-white p-1"
                 />
                 <img
+                  onClick={() => handleNext(product.id)}
                   src={next}
                   alt=""
                   className="absolute right-8  md:right-10 bg-white p-1 top-[50%] cursor-pointer rounded-sm"
