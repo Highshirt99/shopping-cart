@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect} from "react";
 import { CartContext } from "../App";
 import { productsList } from "../productsList";
 import next from "../assets/icon-next.svg";
@@ -8,25 +8,27 @@ import minus from "../assets/icon-minus.svg";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
 const Products = () => {
-  let { productsArr, setCartIsOpen, setCartItemsLength } =
+  let { productsArr, setCartIsOpen, setCartItemsLength, index, setIndex } =
     useContext(CartContext);
   const [amount, setAmount] = useState<number>(1);
 
   const [allProducts, setAllProducts] = useState<any[] | null>(null);
   const [productId, setProductId] = useState<number | null>(null);
-  const [index, setIndex] = useState<number>(0);
+
   const length = 3;
 
   useEffect(() => {
     setAllProducts(productsList);
   }, []);
 
-  const addToCart = (item: any) => {
+
+  const addToCart = (item: any, e:any) => {
     let existingProducts = localStorage.getItem("products") || "";
+   
+    
 
     // Checking if products exist in the local storage.
     if (existingProducts.length > 0) {
-      // console.log(existingProducts)
       existingProducts = JSON.parse(existingProducts);
 
       if (Array.isArray(existingProducts)) {
@@ -38,7 +40,7 @@ const Products = () => {
         if (checkIndex !== -1) {
           existingProducts[checkIndex].amount++;
         } else {
-          existingProducts.push({ ...item });
+          existingProducts.push({ ...item, image: item.images[index].img});
         }
         localStorage.setItem("products", JSON.stringify(existingProducts));
         setCartItemsLength(existingProducts.length);
@@ -47,12 +49,12 @@ const Products = () => {
 
     // if no item exists initially.
     else {
-      productsArr.push({ ...item });
+      productsArr.push({ ...item, image: item.images[index].img});
       localStorage.setItem("products", JSON.stringify(productsArr));
       setCartItemsLength(productsArr.length);
     }
+ 
 
-    // setProducts((prev:ProductType[] ) => [...prev, item])
 
     setCartIsOpen(false);
   };
@@ -78,7 +80,7 @@ const Products = () => {
 
   const handlePrevious = (id: number) => {
     const newIndex = index - 1;
-    setProductId(null)
+    
 
     allProducts?.forEach((product) => {
       if (product.id === productId) {
@@ -87,7 +89,6 @@ const Products = () => {
       }
     });
 
-    // console.log(productId, id)
   };
   const handleNext = (id: number) => {
     const newIndex = index + 1;
@@ -100,13 +101,13 @@ const Products = () => {
       }
     });
 
-    // console.log(id, productId)
+
   };
 
   
 
   return (
-    <div className="lg:px-[3rem] p-[2rem] mb-4 flex flex-col gap-12">
+    <div className="lg:px-[3rem] px-[2rem] py-[8rem] mb-4 flex flex-col gap-12 justify-center">
       {allProducts?.map((product) => {
         return (
           <div
@@ -116,13 +117,14 @@ const Products = () => {
             <div className="w-fit">
               <div className="relative">
                 <img
+             id = "productImg"
                   src={
                     product.id === productId
                       ? product.images[index].img
                       : product.images[0].img
                   }
                   alt="product.heading"
-                  className="rounded-[10px] lg:w-[300px] w-full h-[250px] object-cover"
+                  className="rounded-[10px] min-w-[330px] max-w-[330px]  h-[250px] object-cover"
                 />
                 <img
                   onClick={() => handlePrevious(product.id)}
@@ -134,7 +136,7 @@ const Products = () => {
                   onClick={() => handleNext(product.id)}
                   src={next}
                   alt=""
-                  className="absolute right-8  md:right-10 bg-white p-1 top-[50%] cursor-pointer rounded-sm"
+                  className="absolute right-3  md:right-10 bg-white p-1 top-[50%] cursor-pointer rounded-sm"
                 />
               </div>
               <div className="flex gap-4 mt-8">
@@ -142,7 +144,7 @@ const Products = () => {
                   <img
                     key={thumbnail}
                     src={thumbnail}
-                    alt=""
+                    alt=""   
                     className="rounded-[10px] w-[100px] h-[100px] object-cover"
                   />
                 ))}
@@ -187,8 +189,8 @@ const Products = () => {
                 </div>
 
                 <button
-                  onClick={() => {
-                    addToCart(product);
+                  onClick={(e) => {
+                    addToCart(product, e);
                   }}
                   className="flex h-[50px] lg:h-[30px] md:h-[30px] hover:bg-paleOrange  text-white w-[100%] md:w-[120px] lg:w-[120px] gap-2 justify-center items-center bg-Orange p-1 rounded-md cursor-pointer"
                 >

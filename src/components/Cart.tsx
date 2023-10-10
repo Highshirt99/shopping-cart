@@ -1,9 +1,9 @@
-import React, { useContext, useEffect} from "react";
+import  { useContext, useEffect} from "react";
 import deleteIcon from "../assets/icon-delete.svg";
 import { CartContext } from "../App";
 
 const Cart = () => {
-  const { products, setProducts } = useContext(CartContext);
+  const { products, setProducts} = useContext(CartContext);
 
   const total = products?.reduce((prev, curr) => {
     return prev + curr.price * curr.amount!;
@@ -29,7 +29,7 @@ const Cart = () => {
   };
 
   return (
-    <div className=" bg-white border shadow-lg z-[1000] min-h-[200px] h-auto rounded-[15px]  py-4 lg:w-[400px] md:w-[400px] absolute md:right-12 lg:right-12 top-4 mx-4 lg:mx-0 md:mx-0 w-[90%]">
+    <div className=" bg-white border shadow-lg z-[100000000] fixed min-h-[200px] h-auto rounded-[15px]  py-4 lg:w-[400px] md:w-[400px]  md:right-12 lg:right-12 top-16 mx-4 lg:mx-0 md:mx-0 w-[90%]">
       <h1 className="font-[600] p-4">Cart</h1>
       <hr />
       {products!?.length > 0 ? (

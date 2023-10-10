@@ -10,7 +10,7 @@ const Sidebar = () => {
     <div
       className={`${
         isOpen ? "block" : "hidden"
-      } lg:hidden md:hidden z-[10000] border px-4 fixed top-0 w-[50%] bg-white h-screen max-h-screen `}
+      } lg:hidden md:hidden fixed z-[100000] border px-4 top-0 w-[50%] bg-white h-screen max-h-screen `}
     >
       <img
         src={closeIcon}

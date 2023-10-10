@@ -11,7 +11,9 @@ export type ProductType = {
   discount: string;
   originalPrice: number;
   amount?: number;
-  thumbnails: []
+  thumbnails: [];
+  images: {img: string;
+    id: number}[]
 }
 
 export type CartContextType = {
@@ -26,6 +28,8 @@ export type CartContextType = {
   productsArr: ProductType[],
   cartItemsLength: number | null,
   setCartItemsLength: React.Dispatch<React.SetStateAction<number | null>>;
+  index: number;
+  setIndex:  React.Dispatch<React.SetStateAction<number>>;
 
 
 };

@@ -40,7 +40,7 @@ const Template = () => {
   return (
     <div className="relative">
       <Navbar />
-      <div className="flex items-center gap-8 px-8 py-8 border-b lg:hidden md:hidden">
+      <div className="fixed flex items-center z-[100000] w-full gap-8 px-8 py-8 bg-white border-b lg:hidden md:hidden">
         <img
           src={menuIcon}
           alt=""

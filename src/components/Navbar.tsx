@@ -26,7 +26,7 @@ const Navbar = () => {
   }, [cartItemsLength, setCartItemsLength, setProducts]);
 
   return (
-    <div className="hidden relative lg:block md:block border-b border-b-gray-300  p-3 w-[90%] mx-auto">
+    <div className="hidden z-[1000000] bg-white fixed lg:block md:block border-b border-b-gray-300  p-3 w-[90%] mx-auto">
       <div className="flex items-center gap-8 ">
         <img src={logo} alt="logo" width="80px" />
         <NavLinks />

@@ -15,6 +15,8 @@ export const CartContext = createContext<CartContextType>({
   productsArr: [],
   cartItemsLength: null,
   setCartItemsLength: () => {},
+  index: 0,
+  setIndex: () => {}
 });
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [cartItemsLength, setCartItemsLength] = useState<number | null>(null);
   const productsArr: ProductType[] = [];
+  const [index, setIndex] = useState<number>(0);
+
 
   const toggleIsOpen = () => {
     setIsOpen(!isOpen);
@@ -46,6 +50,8 @@ function App() {
         productsArr,
         cartItemsLength,
         setCartItemsLength,
+        index,
+        setIndex
       }}
     >
       <div className="lg:px-[4rem] md:px-[3rem] font-bodyFont">
